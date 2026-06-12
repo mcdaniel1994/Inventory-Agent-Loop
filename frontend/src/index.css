@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+/* Note: Coffee-roastery design tokens. Components use only these semantic
+   color names (bg-espresso, text-mocha, border-oat, …) — never raw hex —
+   so the whole palette can be retuned here. */
+@theme {
+  --color-cream: #f7f1e8; /* app background */
+  --color-foam: #fffdf8; /* card surface */
+  --color-espresso: #2a1a12; /* sidebar background */
+  --color-roast: #4a2c1a; /* sidebar active item */
+  --color-caramel: #b66a2c; /* primary buttons / accents */
+  --color-caramel-dark: #94501f; /* primary hover */
+  --color-coffee: #1f1712; /* primary text */
+  --color-mocha: #7a6a5d; /* muted text */
+  --color-oat: #e6d8c7; /* borders */
+  --color-amber-roast: #d97706; /* low-stock / warning */
+  --color-sage: #4f7a52; /* success / in-stock */
+  --color-brick: #b42318; /* error */
+}
+
+@layer base {
+  html {
+    background: var(--color-cream);
+  }
+
+  body {
+    margin: 0;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+}
