@@ -1,5 +1,7 @@
 # AI Basic Inventory Agent Loop ☕
 
+Live demo: https://inventory-agent-loop.vercel.app/
+
 An AI inventory assistant for **Brewed Awakening**, a coffee shop supply store with two locations. Instead of maintaining a shared spreadsheet, the owner (Carla) talks to an agent in plain English — *"Do we have enough oat milk to cover the week?"* — and the agent reads and updates real inventory through a REST API.
 
 The agent loop (**Observe → Think → Act → Update → Repeat**) is hand-written in plain Python. **No agent frameworks** (no LangChain, LlamaIndex, AutoGen, CrewAI) — the only AI dependency is the `openai` client SDK, pointed at DeepSeek's OpenAI-compatible API.
