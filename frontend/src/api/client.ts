@@ -3,7 +3,7 @@
 
 import type { AlertsResponse, ChatResponse, Product } from "../types";
 
-const BASE = "/api";
+const BASE = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") || "/api";
 
 // Note: FastAPI puts human-readable error messages in `detail` — surface
 // that string so forms can show it directly.
