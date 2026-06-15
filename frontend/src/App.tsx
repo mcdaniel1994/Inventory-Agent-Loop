@@ -28,12 +28,32 @@ const CHAT_MIN_W = 336;
 const CHAT_MAX_W = 520;
 const CHAT_DEFAULT_W = 384;
 const CHAT_W_KEY = "chatWidth";
+const DESKTOP_SIDEBAR_W = 240;
+const RESIZE_HANDLE_W = 12;
+const MAIN_MIN_W_WHEN_POSSIBLE = 600;
+
+function currentChatMax(): number {
+  if (typeof window === "undefined") return CHAT_MAX_W;
+  const available =
+    window.innerWidth -
+    DESKTOP_SIDEBAR_W -
+    RESIZE_HANDLE_W -
+    MAIN_MIN_W_WHEN_POSSIBLE;
+  return Math.max(CHAT_MIN_W, Math.min(CHAT_MAX_W, available));
+}
+
+function clampChatWidth(width: number): number {
+  return Math.min(currentChatMax(), Math.max(CHAT_MIN_W, width));
+}
 
 function loadChatWidth(): number {
   const saved = Number(localStorage.getItem(CHAT_W_KEY));
-  return Number.isFinite(saved) && saved >= CHAT_MIN_W && saved <= CHAT_MAX_W
-    ? saved
-    : CHAT_DEFAULT_W;
+  const width = Number.isFinite(saved) ? saved : CHAT_DEFAULT_W;
+  const clamped = clampChatWidth(width);
+  if (clamped !== width) {
+    localStorage.setItem(CHAT_W_KEY, String(clamped));
+  }
+  return clamped;
 }
 
 export default function App() {
@@ -60,10 +80,7 @@ export default function App() {
       let next = startWidth;
       const onMove = (ev: globalThis.PointerEvent) => {
         // Note: dragging left widens the chat (it sits on the right edge).
-        next = Math.min(
-          CHAT_MAX_W,
-          Math.max(CHAT_MIN_W, startWidth + (startX - ev.clientX)),
-        );
+        next = clampChatWidth(startWidth + (startX - ev.clientX));
         setChatWidth(next);
       };
       const onUp = () => {
@@ -79,6 +96,22 @@ export default function App() {
     },
     [chatWidth],
   );
+
+  useEffect(() => {
+    const onResize = () => {
+      setChatWidth((width) => {
+        const clamped = clampChatWidth(width);
+        if (clamped !== width) {
+          localStorage.setItem(CHAT_W_KEY, String(clamped));
+        }
+        return clamped;
+      });
+    };
+
+    window.addEventListener("resize", onResize);
+    onResize();
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   const refresh = useCallback(async () => {
     try {

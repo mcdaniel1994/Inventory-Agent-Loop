@@ -73,14 +73,14 @@ export default function InventoryTable({
   return (
     <section className="overflow-hidden rounded-lg border border-oat bg-foam shadow-sm shadow-coffee/5">
       <div className="flex flex-col gap-3 border-b border-oat/60 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-        <h2 className="text-base font-bold text-coffee">
+        <h2 className="min-w-0 text-base font-bold text-coffee">
           {compact ? "Lowest Stock First" : "Inventory Overview"}
         </h2>
         {compact ? (
           <button
             type="button"
             onClick={onViewAll}
-            className="flex min-h-11 w-fit items-center gap-1 rounded-md px-2 text-sm font-semibold text-caramel transition hover:text-caramel-dark focus-visible:ring-2 focus-visible:ring-caramel/35 focus-visible:outline-none"
+            className="flex min-h-11 w-fit shrink-0 items-center gap-1 rounded-md px-2 text-sm font-semibold whitespace-nowrap text-caramel transition hover:text-caramel-dark focus-visible:ring-2 focus-visible:ring-caramel/35 focus-visible:outline-none"
           >
             View all <ArrowRight className="h-4 w-4" />
           </button>
@@ -139,15 +139,21 @@ export default function InventoryTable({
         })}
       </ul>
 
-      {/* Note: full table from md up */}
-      <table className="hidden w-full table-fixed text-left text-sm md:table">
+      {/* Note: full table from md up. The wrapper scrolls horizontally when
+          the resizable chat panel leaves the center workspace narrow. */}
+      <div className="hidden overflow-x-auto md:block">
+      <table
+        className={`w-full table-fixed text-left text-sm ${
+          canDelete ? "min-w-[760px]" : "min-w-[640px]"
+        }`}
+      >
         <colgroup>
           {canDelete ? (
             <>
-              <col className="w-[40%]" />
+              <col className="w-[38%]" />
               <col className="w-[14%]" />
               <col className="w-[12%]" />
-              <col className="w-[22%]" />
+              <col className="w-[24%]" />
               <col className="w-[72px]" />
             </>
           ) : (
@@ -161,12 +167,20 @@ export default function InventoryTable({
         </colgroup>
         <thead>
           <tr className="text-xs tracking-wide text-mocha uppercase">
-            <th className="px-4 py-3 font-semibold sm:px-5">Product</th>
-            <th className="px-3 py-3 font-semibold">Quantity</th>
-            <th className="px-3 py-3 font-semibold">Unit</th>
-            <th className="px-3 py-3 font-semibold">Status</th>
+            <th className="px-4 py-3 font-semibold whitespace-nowrap sm:px-5">
+              Product
+            </th>
+            <th className="px-3 py-3 font-semibold whitespace-nowrap">
+              Quantity
+            </th>
+            <th className="px-3 py-3 font-semibold whitespace-nowrap">Unit</th>
+            <th className="px-3 py-3 font-semibold whitespace-nowrap">
+              Status
+            </th>
             {canDelete && (
-              <th className="px-3 py-3 text-right font-semibold">Action</th>
+              <th className="px-3 py-3 text-right font-semibold whitespace-nowrap">
+                Action
+              </th>
             )}
           </tr>
         </thead>
@@ -181,15 +195,17 @@ export default function InventoryTable({
                 <td className="px-4 py-3.5 sm:px-5">
                   <div className="flex min-w-0 items-center gap-3">
                     <ProductThumb product={p} />
-                    <span className="min-w-0 break-words font-medium text-coffee">
+                    <span className="min-w-0 truncate font-medium text-coffee">
                       {p.name}
                     </span>
                   </div>
                 </td>
-                <td className="px-3 py-3.5 font-semibold break-words text-coffee">
+                <td className="px-3 py-3.5 font-semibold whitespace-nowrap text-coffee">
                   {p.quantity}
                 </td>
-                <td className="px-3 py-3.5 break-words text-mocha">{p.unit}</td>
+                <td className="px-3 py-3.5 whitespace-nowrap text-mocha">
+                  {p.unit}
+                </td>
                 <td className="px-3 py-3.5">
                   <StatusChip low={low} />
                 </td>
@@ -211,6 +227,7 @@ export default function InventoryTable({
           })}
         </tbody>
       </table>
+      </div>
 
       {visible.length === 0 && (
         <p className="px-6 py-8 text-center text-sm text-mocha">

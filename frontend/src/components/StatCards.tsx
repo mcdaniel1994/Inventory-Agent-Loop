@@ -49,7 +49,7 @@ export default function StatCards({
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-[repeat(auto-fit,minmax(160px,1fr))] md:gap-4">
+    <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,14rem),1fr))] gap-3 md:gap-4">
       {cards.map((card) => (
         <div
           key={card.label}
