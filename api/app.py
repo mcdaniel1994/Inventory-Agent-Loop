@@ -44,8 +44,8 @@ app.add_middleware(
 
 @app.on_event("startup")
 def seed_data_if_missing() -> None:
-    # Note: Guarantees products.csv exists (with coffee-shop seed data) before
-    # the first request, so the agent never sees a missing file.
+    # Note: Guarantees data/products.csv exists (with coffee-shop seed data)
+    # before the first request, so the agent never sees a missing file.
     storage.ensure_products_file()
 
 

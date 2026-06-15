@@ -102,9 +102,8 @@ export default function App() {
     refresh();
   }, [refresh]);
 
-  // Note: pb-16 keeps content clear of the fixed bottom tab bar on mobile.
   return (
-    <div className="flex h-screen bg-cream pb-16 text-coffee lg:pb-0">
+    <div className="flex h-[100dvh] overflow-hidden bg-cream text-coffee">
       <Sidebar
         view={view}
         onNavigate={setView}
@@ -115,7 +114,7 @@ export default function App() {
       {/* Note: hidden on mobile while the Chat tab is active — the chat
           panel takes over the whole screen there. */}
       <div
-        className={`min-w-0 flex-1 flex-col ${
+        className={`min-h-0 min-w-0 flex-1 flex-col ${
           view === "chat" ? "hidden lg:flex" : "flex"
         }`}
       >
@@ -125,7 +124,7 @@ export default function App() {
           onToggleChat={() => setChatOpen((v) => !v)}
         />
 
-        <main className="flex-1 overflow-y-auto px-4 py-5 sm:px-8 sm:py-6 xl:px-10">
+        <main className="flex-1 overflow-y-auto px-4 pt-5 pb-[calc(1.25rem+var(--mobile-bottom-nav-h))] sm:px-8 sm:pt-6 sm:pb-[calc(1.5rem+var(--mobile-bottom-nav-h))] lg:py-6 xl:px-10">
           <div
             className={`mx-auto w-full space-y-6 ${
               chatOpen

@@ -18,8 +18,8 @@ const tabs: { label: string; icon: typeof Boxes; view: View }[] = [
 
 export default function BottomNav({ view, onNavigate }: BottomNavProps) {
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-oat bg-foam pb-[env(safe-area-inset-bottom)] lg:hidden">
-      <div className="grid grid-cols-4 px-1 py-1">
+    <nav className="fixed inset-x-0 bottom-0 z-30 h-[var(--mobile-bottom-nav-h)] border-t border-oat bg-foam/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_24px_rgba(31,23,18,0.08)] backdrop-blur lg:hidden">
+      <div className="grid h-16 grid-cols-4 px-1 py-1">
         {tabs.map((tab) => {
           const active = view === tab.view;
           return (
@@ -28,7 +28,7 @@ export default function BottomNav({ view, onNavigate }: BottomNavProps) {
               key={tab.label}
               onClick={() => onNavigate(tab.view)}
               aria-current={active ? "page" : undefined}
-              className={`flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-lg text-[11px] font-medium transition focus-visible:ring-2 focus-visible:ring-caramel/35 focus-visible:outline-none ${
+              className={`flex h-full flex-col items-center justify-center gap-0.5 rounded-lg text-[11px] font-medium transition focus-visible:ring-2 focus-visible:ring-caramel/35 focus-visible:outline-none ${
                 active
                   ? "bg-caramel/10 text-caramel-dark"
                   : "text-mocha hover:bg-cream"

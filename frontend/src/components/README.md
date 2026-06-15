@@ -8,9 +8,9 @@ icons.
 
 | Component | What it does |
 |---|---|
-| `Sidebar.tsx` | Desktop-only (`hidden lg:flex`) espresso-dark sidebar: brand block, view navigation (Dashboard / Inventory / Alerts) with roast-brown active state, Agent Chat toggle, and the "Agent Core — shared with CLI" footer badge. |
-| `BottomNav.tsx` | Mobile-only (`lg:hidden`) fixed bottom tab bar with four tabs — Dashboard, Inventory, Alerts, Chat. Active tab is caramel. Chat is a full-screen view on mobile. |
-| `Header.tsx` | Top bar: current view title + "AI Powered" pill; on desktop also the chat-panel toggle switch and the user block; on mobile a compact brand mark replaces them. |
+| `Sidebar.tsx` | Desktop-only (`hidden lg:flex`) espresso-dark sidebar: brand block, view navigation (Dashboard / Inventory / Alerts) with roast-brown active state, Agent Chat toggle, and the "Inventory Agent — shared with CLI" footer badge. |
+| `BottomNav.tsx` | Mobile-only (`lg:hidden`) fixed bottom tab bar with four tabs — Dashboard, Inventory, Alerts, Chat. Active tab is caramel. Chat is a full-screen view sized above the bottom nav on mobile. |
+| `Header.tsx` | Top bar: current view title/subtitle + "AI Powered" pill; on desktop also the chat-panel toggle switch and the user block; on mobile a compact brand mark replaces them. |
 
 ## Dashboard widgets
 
@@ -31,5 +31,5 @@ icons.
 
 | Component | What it does |
 |---|---|
-| `ChatPanel.tsx` | The Agent Chat. One instance serves both layouts (docked right column on desktop, full-screen tab on mobile) so the conversation survives breakpoint changes. Keeps the OpenAI-style `history` in state and echoes it back on each `POST /agent/chat`; renders light `**bold**` markdown; triggers an app refresh when the agent used a write tool. |
+| `ChatPanel.tsx` | The Agent Chat. One instance serves both layouts (docked right column on desktop, full-screen tab above the mobile bottom nav) so the conversation survives breakpoint changes. Keeps the OpenAI-style `history` in state and echoes it back on each `POST /agent/chat`; renders light `**bold**` markdown; triggers an app refresh when the agent used a write tool. |
 | `ToolTrace.tsx` | Collapsible "Tool Trace (n)" panel under an agent reply listing each API tool call with its arguments — makes the agent loop transparent in the UI. |

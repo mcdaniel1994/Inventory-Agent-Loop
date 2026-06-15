@@ -53,7 +53,7 @@ export default function StatCards({
       {cards.map((card) => (
         <div
           key={card.label}
-          className="rounded-lg border border-oat bg-foam p-4 shadow-sm md:p-5"
+          className="rounded-lg border border-oat bg-foam p-4 shadow-sm shadow-coffee/5 md:p-5"
         >
           <div className="flex items-start gap-3">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-oat bg-cream md:h-10 md:w-10">

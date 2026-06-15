@@ -10,7 +10,7 @@ interface AddProductFormProps {
 }
 
 const inputClass =
-  "h-11 w-full rounded-lg border border-oat bg-cream px-3 text-sm text-coffee outline-none placeholder:text-mocha/70 focus-visible:border-caramel focus-visible:ring-2 focus-visible:ring-caramel/25";
+  "h-11 w-full rounded-lg border border-oat bg-cream px-3 text-base text-coffee outline-none placeholder:text-mocha/70 focus-visible:border-caramel focus-visible:ring-2 focus-visible:ring-caramel/25 sm:text-sm";
 const labelClass = "text-xs font-semibold text-mocha";
 
 export default function AddProductForm({ onChanged }: AddProductFormProps) {
@@ -40,7 +40,7 @@ export default function AddProductForm({ onChanged }: AddProductFormProps) {
   return (
     <form
       onSubmit={submit}
-      className="rounded-lg border border-oat bg-foam p-4 shadow-sm sm:p-5"
+      className="rounded-lg border border-oat bg-foam p-4 shadow-sm shadow-coffee/5 sm:p-5"
     >
       <h3 className="text-sm font-bold text-coffee">Add Product</h3>
       <div className="mt-4 space-y-3">

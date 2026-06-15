@@ -1,12 +1,12 @@
-# SPEC.md — AI Basic Inventory Agent Loop
+# SPEC.md — Brewed Awakening Inventory Platform
 
 An AI inventory assistant for a two-location coffee shop supply store. The owner (Carla) talks to an agent in natural language ("Do we have enough oat milk to cover the week?") instead of maintaining a spreadsheet. The system is an educational assignment (FastAPI + hand-coded agent loop, no frameworks) extended with a portfolio-grade React dashboard.
 
 **Hard constraints (assignment):**
-- REST API in FastAPI at `api/app.py`, persisting to `products.csv`.
+- REST API in FastAPI at `api/app.py`, persisting to `data/products.csv`.
 - Agent in plain Python at `agent.py` implementing the loop **Observe → Think → Act → Update → Repeat** manually.
 - **No agent frameworks** (no LangChain, LlamaIndex, AutoGen, CrewAI, etc.). The `openai` package is an LLM *client SDK*, not a framework — it is allowed and required.
-- Append-only `conversation_log.csv` with `actor, message, tool_call, timestamp`.
+- Append-only `data/conversation_log.csv` with `actor, message, tool_call, timestamp`.
 - Launch: `uvicorn api.app:app --reload` (terminal 1) + `python agent.py` (terminal 2).
 
 **Portfolio extension (must never compromise the above):** React + TypeScript + Vite + Tailwind dashboard, plus an optional `POST /agent/chat` route that reuses the same agent core as the CLI.
@@ -24,20 +24,21 @@ Inventory-Agent-Loop/
 ├── .env.example              # API_KEY=your_key_here
 ├── .gitignore
 ├── requirements.txt          # fastapi, uvicorn, openai, python-dotenv, httpx
-├── products.csv              # data store (auto-created/seeded if missing)
-├── conversation_log.csv      # append-only log (auto-created if missing)
+├── data/
+│   ├── products.csv          # data store (auto-created/seeded if missing)
+│   └── conversation_log.csv  # append-only log (auto-created if missing)
 │
 ├── api/
 │   ├── __init__.py
 │   ├── app.py                # FastAPI app: all routes, CORS, /agent/chat
 │   ├── models.py             # Pydantic request/response models
-│   └── storage.py            # CSV read/write layer for products.csv
+│   └── storage.py            # CSV read/write layer for data/products.csv
 │
 ├── agent_core/
 │   ├── __init__.py
 │   ├── loop.py               # run_agent_turn(): the manual agent loop
 │   ├── tools.py              # tool schemas + dispatcher (HTTP calls via httpx)
-│   └── logger.py             # append-only conversation_log.csv writer
+│   └── logger.py             # append-only data/conversation_log.csv writer
 │
 ├── agent.py                  # REQUIRED CLI entrypoint (thin wrapper over agent_core)
 │
@@ -66,11 +67,11 @@ Inventory-Agent-Loop/
 
 Notes:
 - `agent_core/` keeps the loop importable by both `agent.py` and the API route — this is the single source of truth for the loop. `agent.py` stays a ~40-line readable CLI so graders see the required entrypoint immediately.
-- `uvicorn api.app:app --reload` must be run from the project root so `products.csv` and `conversation_log.csv` resolve to the root. Both file paths are defined as absolute-from-project-root constants (derived from `Path(__file__).resolve().parents[1]`) so cwd never matters.
+- CSV file paths are anchored to the project root under `data/` (`data/products.csv` and `data/conversation_log.csv`) using `Path(__file__).resolve().parents[1]`, so cwd does not affect persistence.
 
 ## 2. Data Models
 
-### products.csv
+### data/products.csv
 ```csv
 id,name,quantity,unit
 1,Espresso Beans (1kg),24,bag
@@ -87,7 +88,7 @@ id,name,quantity,unit
 - If the file is missing on API startup, `storage.py` creates it **with the seed rows above** (low-stock items included on purpose so `/inventory/alerts` demos well).
 - Write strategy: read all → modify in memory → rewrite whole file (atomic enough at this scale; documented as a known simplification).
 
-### conversation_log.csv
+### data/conversation_log.csv
 ```csv
 actor,message,tool_call,timestamp
 user,Do we have enough oat milk for the week?,,2026-06-12T14:01:03+00:00
@@ -165,7 +166,7 @@ The phases are labeled with `# Note:` comments in code matching the assignment v
 Stack: React 18 + TypeScript + Vite + Tailwind CSS. Dev proxy in `vite.config.ts`: `/api → http://localhost:8000` (client calls `/api/inventory` etc.).
 
 **Visual reference: `UI_Frontend.png` in the project root.** The executing agent must open and reference this mock (read the image file) before building any frontend component; match its layout, structure, and feel — not pixel-for-pixel. From the mock:
-- Dark-green **left sidebar**: brand block ("Brewed Awakening — Coffee Supply"), nav items Dashboard / Inventory / Alerts / Agent Chat / Conversation Logs / Settings, footer badge "Agent Core — Shared with CLI".
+- Dark-green **left sidebar**: brand block ("Brewed Awakening — Coffee Supply"), nav items Dashboard / Inventory / Alerts / Agent Chat, footer badge "Inventory Agent — Shared with CLI".
 - **Header**: "Inventory Agent Dashboard" title with an "AI Powered" pill, a Chat Panel toggle, and a user avatar block.
 - **Four stat cards**: Total Products, Low Stock Items, Total Units, Recent Updates — each with icon, big number, small trend/subtext.
 - **Inventory Overview table**: search box + filter dropdowns; columns Product (with thumbnail/initial), Quantity, Unit, Status chip (green "In Stock" / red "Low Stock"), Last Updated. (The mock shows a Category column and forecasting hints — those are out of the CSV data-model scope; omit or stub them rather than expanding the data model.)
@@ -176,12 +177,12 @@ Style per the mock: warm neutral background (Tailwind `stone-50/100`), deep-gree
 
 Features: inventory table (auto-refetch after mutations), AlertsPanel, AddProductForm, AdjustStockForm (+incoming/−outgoing), StatCards (total products, low-stock count, total units), ChatPanel (keeps `history` in component state, sends it with each request), ToolTrace. Form errors surface the API's `detail` string.
 
-The frontend is **strictly optional**: nothing in `api/` or `agent.py` imports from or depends on `frontend/`; deleting the folder leaves the assignment fully functional. README presents it in a clearly separated "Bonus: Dashboard" section.
+The frontend is **strictly optional**: nothing in `api/` or `agent.py` imports from or depends on `frontend/`; deleting the folder leaves the assignment fully functional. README presents the dashboard as a product-facing portfolio extension.
 
 ## 6. README.md Outline
 
 1. Project title, one-paragraph pitch, screenshot/GIF placeholder.
-2. Architecture diagram (ASCII): CLI ⇄ agent_core ⇄ DeepSeek; agent_core → FastAPI → products.csv; frontend → FastAPI.
+2. Architecture diagram (ASCII): CLI ⇄ agent_core ⇄ DeepSeek; agent_core → FastAPI → data/products.csv; frontend → FastAPI.
 3. Setup: `python -m venv .venv && source .venv/bin/activate`, `pip install -r requirements.txt` (mirroring `pip install fastapi uvicorn openai python-dotenv` + httpx), copy `.env.example` → `.env`, add DeepSeek key.
 4. Run (assignment): Terminal 1 `uvicorn api.app:app --reload`; Terminal 2 `python agent.py`.
 5. Example conversation transcript incl. a multi-step interaction.
@@ -190,15 +191,15 @@ The frontend is **strictly optional**: nothing in `api/` or `agent.py` imports f
 8. Bonus dashboard: `cd frontend && npm install && npm run dev` → http://localhost:5173.
 9. Design decisions & assignment compliance checklist (incl. "no agent frameworks — loop is hand-written in `agent_core/loop.py`").
 
-`.gitignore`: `.env`, `.venv/`, `__pycache__/`, `frontend/node_modules/`, `frontend/dist/`, `.DS_Store`. (Note: `conversation_log.csv` is committed-or-not per preference, but `products.csv` ships with seeds.)
+`.gitignore`: `.env`, `.venv/`, `__pycache__/`, `frontend/node_modules/`, `frontend/dist/`, `.DS_Store`. (Note: `data/conversation_log.csv` is committed-or-not per preference, but `data/products.csv` ships with seeds.)
 
 ## 7. Implementation Phases & Acceptance Criteria
 
 **Phase 1 — Scaffold & API.** Create structure, `.env.example`, `.gitignore`, `requirements.txt`; implement `storage.py`, `models.py`, `app.py` (4 required endpoints + CORS).
-✅ Accept: server starts from project root; `products.csv` auto-seeds when missing; all endpoints behave per the table above (verified with curl); restart server → data persists; duplicate name → 409; over-draw stock → 400; unknown id → 404.
+✅ Accept: server starts from project root; `data/products.csv` auto-seeds when missing; all endpoints behave per the table above (verified with curl); restart server → data persists; duplicate name → 409; over-draw stock → 400; unknown id → 404.
 
 **Phase 2 — Agent core + CLI.** Implement `logger.py`, `tools.py`, `loop.py`, `agent.py`.
-✅ Accept: with API running, `python agent.py` answers "what's in stock?" via `get_inventory`; "we received 12 oat milks" calls `adjust_stock` correctly; a multi-step prompt ("restock all low items to 20") chains tools across iterations; `conversation_log.csv` gains correctly-shaped rows and survives multiple sessions without truncation; loop exits cleanly on final answer; max-iterations guard works (testable by setting it to 1).
+✅ Accept: with API running, `python agent.py` answers "what's in stock?" via `get_inventory`; "we received 12 oat milks" calls `adjust_stock` correctly; a multi-step prompt ("restock all low items to 20") chains tools across iterations; `data/conversation_log.csv` gains correctly-shaped rows and survives multiple sessions without truncation; loop exits cleanly on final answer; max-iterations guard works (testable by setting it to 1).
 
 **Phase 3 — /agent/chat route.** Wire `agent_core` into FastAPI.
 ✅ Accept: `curl -X POST /agent/chat -d '{"message":"what is low on stock?"}'` returns `reply` + `tool_trace`; passing returned `history` back continues the conversation; CLI behavior unchanged.
@@ -211,12 +212,12 @@ The frontend is **strictly optional**: nothing in `api/` or `agent.py` imports f
 
 ## 8. Testing Checklist (manual, run before calling it done)
 
-- [ ] `uvicorn api.app:app --reload` from root; delete `products.csv` first → recreated with seeds.
+- [ ] `uvicorn api.app:app --reload` from root; delete `data/products.csv` first → recreated with seeds.
 - [ ] curl all 4 endpoints: happy path + 404 (PATCH bad id) + 409 (duplicate POST) + 400 (delta below zero) + 422 (missing field).
 - [ ] Restart uvicorn → `GET /inventory` shows prior mutations (persistence).
 - [ ] `python agent.py`: single-tool question; write operation; **multi-step** request chaining ≥2 tools; question needing no tool (direct answer, loop exits in one iteration).
 - [ ] Agent with API stopped → friendly error, no crash.
-- [ ] Inspect `conversation_log.csv`: 4 columns, all actor types present, ISO timestamps; run a second session → rows appended, none lost.
+- [ ] Inspect `data/conversation_log.csv`: 4 columns, all actor types present, ISO timestamps; run a second session → rows appended, none lost.
 - [ ] `POST /agent/chat` with and without `history`.
 - [ ] Frontend: full CRUD flows, alert panel reflects threshold, chat + tool trace, error toasts on 409/400.
 - [ ] Grep the repo: no `langchain`, `llama_index`, `autogen`, `crewai` anywhere.

@@ -9,6 +9,7 @@ import {
   UserRound,
 } from "lucide-react";
 import type { View } from "../types";
+import { BRAND } from "../brand";
 
 interface HeaderProps {
   view: View;
@@ -17,25 +18,38 @@ interface HeaderProps {
 }
 
 const titles: Record<View, string> = {
-  dashboard: "Dashboard",
+  dashboard: BRAND.name,
   inventory: "Inventory",
   alerts: "Alerts",
   chat: "Agent Chat",
+};
+
+const subtitles: Record<View, string> = {
+  dashboard: BRAND.descriptor,
+  inventory: "Stock levels, search, and adjustments",
+  alerts: "Items that need purchasing attention",
+  chat: "Ask the agent to read or update stock",
 };
 
 export default function Header({ view, chatOpen, onToggleChat }: HeaderProps) {
   const PanelIcon = chatOpen ? PanelRightClose : PanelRightOpen;
 
   return (
-    <header className="flex items-center justify-between gap-3 border-b border-oat bg-foam px-4 py-3 sm:px-8 sm:py-4">
+    <header className="shrink-0 border-b border-oat bg-foam px-4 py-3 shadow-sm shadow-coffee/5 sm:px-8 sm:py-4">
+      <div className="flex items-center justify-between gap-3">
       <div className="flex min-w-0 items-center gap-3">
         {/* Note: mobile brand mark — sidebar is hidden below lg */}
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-caramel text-white shadow-sm shadow-caramel/20 lg:hidden">
           <Coffee className="h-4.5 w-4.5" strokeWidth={2} />
         </div>
-        <h1 className="truncate text-lg font-bold text-coffee sm:text-xl">
-          {titles[view]}
-        </h1>
+        <div className="min-w-0">
+          <h1 className="truncate text-lg leading-tight font-bold text-coffee sm:text-xl">
+            {titles[view]}
+          </h1>
+          <p className="truncate text-xs leading-5 text-mocha">
+            {subtitles[view]}
+          </p>
+        </div>
         <span className="hidden shrink-0 items-center gap-1 rounded-full bg-caramel/15 px-3 py-1 text-xs font-semibold text-caramel-dark sm:flex">
           <Sparkles className="h-3 w-3" />
           AI Powered
@@ -70,6 +84,7 @@ export default function Header({ view, chatOpen, onToggleChat }: HeaderProps) {
             <p className="text-xs text-mocha">Operations Manager</p>
           </div>
         </div>
+      </div>
       </div>
     </header>
   );

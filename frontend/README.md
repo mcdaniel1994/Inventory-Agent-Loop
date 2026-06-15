@@ -1,4 +1,4 @@
-# `frontend/` — Inventory Dashboard (Bonus)
+# `frontend/` — Brewed Awakening Dashboard
 
 A React + TypeScript + Vite + Tailwind CSS dashboard for the inventory system,
 styled with a coffee-roastery identity (espresso sidebar, cream canvas,
@@ -35,6 +35,7 @@ backend stays stateless.
 
 - **Desktop (lg+)**: espresso sidebar (view navigation) | header + main
   content | docked right-hand Agent Chat panel (toggleable).
-- **Mobile (<lg)**: slim header + main content with a fixed bottom tab bar
-  (Dashboard / Inventory / Alerts / Chat); Chat is a full-screen tab. The
-  inventory list renders as stacked cards instead of a table below `md`.
+- **Mobile (<lg)**: slim branded header + main content with a fixed bottom tab
+  bar (Dashboard / Inventory / Alerts / Chat); Chat is a full-screen tab sized
+  above the bottom navigation. The inventory list renders as stacked cards
+  instead of a table below `md`.

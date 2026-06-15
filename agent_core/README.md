@@ -16,7 +16,7 @@ It is shared by two entrypoints, which run the exact same logic:
 |---|---|
 | `loop.py` | `run_agent_turn()` — the manual **Observe → Think → Act → Update → Repeat** loop, plus the system prompt (persona: inventory assistant for Carla's two-location coffee shop supply store) and the lazily-created DeepSeek client. |
 | `tools.py` | The four tool definitions the LLM can call (OpenAI function-calling format: name, description, typed JSON-schema parameters) and the dispatcher that executes them as real HTTP calls against the FastAPI endpoints using `httpx`. |
-| `logger.py` | `log_event()` — appends one row per loop event to `conversation_log.csv` (`actor, message, tool_call, timestamp`). Append-only: the header is written once on creation and the file is never truncated, so sessions accumulate. |
+| `logger.py` | `log_event()` — appends one row per loop event to `data/conversation_log.csv` (`actor, message, tool_call, timestamp`). Append-only: the header is written once on creation and the file is never truncated, so sessions accumulate. |
 
 ## How one turn works (`loop.py`)
 

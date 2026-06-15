@@ -344,3 +344,41 @@ agent,"Done! Here's what changed:
 - **Oat Milk (1L)**: 20 cartons → **30 cartons** (+10 cartons)
 
 Both are updated. Anything else you need?",,2026-06-12T22:48:56.914195+00:00
+user,Hello,,2026-06-15T18:54:12.549166+00:00
+agent,Calling get_inventory with {},get_inventory,2026-06-15T18:54:14.525496+00:00
+tool,"[{""id"": 1, ""name"": ""Espresso Beans (1kg)"", ""quantity"": 36, ""unit"": ""bag""}, {""id"": 2, ""name"": ""Oat Milk (1L)"", ""quantity"": 30, ""unit"": ""carton""}, {""id"": 3, ""name"": ""Paper Cups 12oz"", ""quantity"": 300, ""unit"": ""unit""}, {""id"": 4, ""name"": ""Cup Lids 12oz"", ""quantity"": 180, ""unit"": ""unit""}, {""id"": 5, ""name"": ""Vanilla Syrup"", ""quantity"": 20, ""unit"": ""bottle""}, {""id"": 6, ""name"": ""Cleaning Tablets"", ""quantity"": 20, ""unit"": ""box""}, {""id"": 7, ""name"": ""Decaf Beans (1kg)"", ""quantity"": 9, ""unit"": ""bag""}, {""id"": 8, ""name"": ""House Blend Beans (1kg)"", ""quantity"": 30, ""unit"": ""bag""}, {""id"": 9, ""name"": ""Dark Roast Beans"", ""quantity"": 25, ""unit"": ""kg""}, {""id"": 10, ""name"": ""Napkins (test)"", ""quantity"": 50, ""unit"": ""pack""}]",get_inventory,2026-06-15T18:54:14.533340+00:00
+agent,"We've got **10 products** in stock across both locations. Here's a quick overview:
+
+| Product | Qty | Unit |
+|---|---|---|
+| Espresso Beans (1kg) | 36 | bag |
+| Oat Milk (1L) | 30 | carton |
+| Paper Cups 12oz | 300 | unit |
+| Cup Lids 12oz | 180 | unit |
+| Vanilla Syrup | 20 | bottle |
+| Cleaning Tablets | 20 | box |
+| Decaf Beans (1kg) | 9 | bag |
+| House Blend Beans (1kg) | 30 | bag |
+| Dark Roast Beans | 25 | kg |
+| Napkins (test) | 50 | pack |
+
+What can I help you with? Any stock updates, new products, or checking on low stock?",,2026-06-15T18:54:17.062611+00:00
+user,Show me the current stock.,,2026-06-15T18:56:21.197129+00:00
+agent,Calling get_inventory with {},get_inventory,2026-06-15T18:56:22.360336+00:00
+tool,"[{""id"": 1, ""name"": ""Espresso Beans (1kg)"", ""quantity"": 36, ""unit"": ""bag""}, {""id"": 2, ""name"": ""Oat Milk (1L)"", ""quantity"": 30, ""unit"": ""carton""}, {""id"": 3, ""name"": ""Paper Cups 12oz"", ""quantity"": 300, ""unit"": ""unit""}, {""id"": 4, ""name"": ""Cup Lids 12oz"", ""quantity"": 180, ""unit"": ""unit""}, {""id"": 5, ""name"": ""Vanilla Syrup"", ""quantity"": 20, ""unit"": ""bottle""}, {""id"": 6, ""name"": ""Cleaning Tablets"", ""quantity"": 20, ""unit"": ""box""}, {""id"": 7, ""name"": ""Decaf Beans (1kg)"", ""quantity"": 9, ""unit"": ""bag""}, {""id"": 8, ""name"": ""House Blend Beans (1kg)"", ""quantity"": 30, ""unit"": ""bag""}, {""id"": 9, ""name"": ""Dark Roast Beans"", ""quantity"": 25, ""unit"": ""kg""}, {""id"": 10, ""name"": ""Napkins (test)"", ""quantity"": 50, ""unit"": ""pack""}]",get_inventory,2026-06-15T18:56:22.369653+00:00
+agent,"Here's the current stock across all products:
+
+| ID | Product | Qty | Unit |
+|----|---------|:---:|:----:|
+| 1 | Espresso Beans (1kg) | 36 | bag |
+| 2 | Oat Milk (1L) | 30 | carton |
+| 3 | Paper Cups 12oz | 300 | unit |
+| 4 | Cup Lids 12oz | 180 | unit |
+| 5 | Vanilla Syrup | 20 | bottle |
+| 6 | Cleaning Tablets | 20 | box |
+| 7 | Decaf Beans (1kg) | **9** ⚠️ | bag |
+| 8 | House Blend Beans (1kg) | 30 | bag |
+| 9 | Dark Roast Beans | 25 | kg |
+| 10 | Napkins (test) | 50 | pack |
+
+Looks like **Decaf Beans (1kg)** is running low at just 9 bags — that's below the typical low-stock threshold of 10. Everything else looks well-stocked. What would you like to do?",,2026-06-15T18:56:24.953567+00:00

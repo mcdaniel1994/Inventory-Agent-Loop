@@ -11,6 +11,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import type { View } from "../types";
+import { BRAND } from "../brand";
 
 interface SidebarProps {
   view: View;
@@ -32,14 +33,14 @@ export default function Sidebar({
   onToggleChat,
 }: SidebarProps) {
   return (
-    <aside className="hidden w-60 shrink-0 flex-col bg-espresso text-cream lg:flex">
+    <aside className="hidden w-60 shrink-0 flex-col bg-espresso text-cream shadow-xl shadow-coffee/10 lg:flex">
       <div className="flex items-center gap-3 px-5 py-6">
         <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-caramel text-white shadow-sm shadow-black/15">
           <Coffee className="h-5 w-5" strokeWidth={2} />
         </div>
         <div>
-          <p className="text-sm leading-tight font-semibold">Brewed Awakening</p>
-          <p className="text-xs text-caramel">Coffee Supply</p>
+          <p className="text-sm leading-tight font-semibold">{BRAND.name}</p>
+          <p className="text-xs text-caramel">{BRAND.shortDescriptor}</p>
         </div>
       </div>
 
@@ -82,7 +83,7 @@ export default function Sidebar({
       <div className="m-3 rounded-lg border border-caramel/15 bg-roast/60 px-4 py-3">
         <p className="flex items-center gap-2 text-xs font-semibold text-cream">
           <Bot className="h-3.5 w-3.5 text-caramel" strokeWidth={1.8} />
-          Agent Core
+          {BRAND.agentLabel}
         </p>
         <p className="mt-0.5 text-[11px] text-caramel">Shared with CLI</p>
       </div>

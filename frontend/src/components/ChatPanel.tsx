@@ -84,9 +84,9 @@ export default function ChatPanel({
   return (
     <aside
       style={style}
-      className={`min-h-0 flex-col border-oat bg-foam lg:w-[var(--chat-w,384px)] lg:shrink-0 lg:border-l lg:shadow-sm ${className}`}
+      className={`h-[calc(100dvh-var(--mobile-bottom-nav-h))] min-h-0 max-h-[calc(100dvh-var(--mobile-bottom-nav-h))] flex-col border-oat bg-foam lg:h-auto lg:max-h-none lg:w-[var(--chat-w,384px)] lg:shrink-0 lg:border-l lg:shadow-sm ${className}`}
     >
-      <div className="border-b border-oat/60 px-5 py-4">
+      <div className="shrink-0 border-b border-oat/60 px-4 py-3 sm:px-5 sm:py-4">
         <h2 className="flex items-center gap-2 text-sm font-bold text-coffee">
           <MessageSquareText className="h-4 w-4 text-caramel" strokeWidth={1.9} />
           Agent Chat
@@ -96,7 +96,7 @@ export default function ChatPanel({
         </p>
       </div>
 
-      <div className="flex-1 space-y-4 overflow-y-auto px-4 py-4 sm:px-5">
+      <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-3 py-4 sm:px-5">
         {messages.length === 0 && (
           <div className="rounded-lg border border-oat bg-cream/70 p-4">
             <div className="flex items-start gap-3">

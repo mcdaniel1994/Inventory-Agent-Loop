@@ -71,7 +71,7 @@ export default function InventoryTable({
   }
 
   return (
-    <section className="overflow-hidden rounded-lg border border-oat bg-foam shadow-sm">
+    <section className="overflow-hidden rounded-lg border border-oat bg-foam shadow-sm shadow-coffee/5">
       <div className="flex flex-col gap-3 border-b border-oat/60 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <h2 className="text-base font-bold text-coffee">
           {compact ? "Lowest Stock First" : "Inventory Overview"}
@@ -92,7 +92,7 @@ export default function InventoryTable({
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search products..."
               aria-label="Search products"
-              className="h-11 w-full rounded-lg border border-oat bg-cream pr-3 pl-9 text-sm text-coffee outline-none placeholder:text-mocha/70 focus-visible:border-caramel focus-visible:ring-2 focus-visible:ring-caramel/25"
+              className="h-11 w-full rounded-lg border border-oat bg-cream pr-3 pl-9 text-base text-coffee outline-none placeholder:text-mocha/70 focus-visible:border-caramel focus-visible:ring-2 focus-visible:ring-caramel/25 sm:text-sm"
             />
           </div>
         )}
@@ -105,13 +105,13 @@ export default function InventoryTable({
       )}
 
       {/* Note: card list on phones */}
-      <ul className="space-y-2 p-3 md:hidden">
+      <ul className="space-y-2 p-2.5 md:hidden">
         {visible.map((p) => {
           const low = p.quantity < threshold;
           return (
             <li
               key={p.id}
-              className="flex min-h-16 items-center gap-3 rounded-lg border border-oat/70 bg-cream/60 p-3"
+              className="flex min-h-16 items-center gap-3 rounded-lg border border-oat/70 bg-cream/70 p-3 shadow-sm shadow-coffee/5"
             >
               <ProductThumb product={p} size="md" />
               <div className="min-w-0 flex-1 pr-1">

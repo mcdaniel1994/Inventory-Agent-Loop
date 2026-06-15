@@ -1,4 +1,4 @@
-# Note: This module is the ONLY place that reads or writes products.csv.
+# Note: This module is the ONLY place that reads or writes data/products.csv.
 # Keeping all file access here means the rest of the app works with plain
 # Python dicts and never worries about CSV details.
 
@@ -6,9 +6,10 @@ import csv
 from pathlib import Path
 
 # Note: Paths are anchored to the project root (one level above api/) so the
-# CSV files land in the same place no matter where the server is started from.
+# data files land in the same place no matter where the server is started from.
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-PRODUCTS_FILE = PROJECT_ROOT / "products.csv"
+DATA_DIR = PROJECT_ROOT / "data"
+PRODUCTS_FILE = DATA_DIR / "products.csv"
 FIELDNAMES = ["id", "name", "quantity", "unit"]
 
 # Note: Seed data for a coffee shop supply store. A couple of items are
@@ -26,6 +27,7 @@ SEED_PRODUCTS = [
 
 def ensure_products_file() -> None:
     # Note: Auto-create the data file with seed rows if it does not exist yet.
+    DATA_DIR.mkdir(exist_ok=True)
     if not PRODUCTS_FILE.exists():
         save_products(SEED_PRODUCTS)
 
@@ -50,6 +52,7 @@ def load_products() -> list[dict]:
 def save_products(products: list[dict]) -> None:
     # Note: Rewrite the whole file on every change. At this scale (a small
     # store's inventory) that is a deliberate, simple persistence strategy.
+    DATA_DIR.mkdir(exist_ok=True)
     with open(PRODUCTS_FILE, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
         writer.writeheader()

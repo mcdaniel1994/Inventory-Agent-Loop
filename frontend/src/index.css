@@ -5,7 +5,7 @@
    so the whole palette can be retuned here. */
 @theme {
   --color-cream: #f7f1e8; /* app background */
-  --color-foam: #fffdf8; /* card surface */
+  --color-foam: #fffefa; /* card surface */
   --color-espresso: #2a1a12; /* sidebar background */
   --color-roast: #4a2c1a; /* sidebar active item */
   --color-caramel: #b66a2c; /* primary buttons / accents */
@@ -19,8 +19,18 @@
 }
 
 @layer base {
+  :root {
+    --mobile-bottom-nav-h: calc(4rem + env(safe-area-inset-bottom));
+  }
+
   html {
     background: var(--color-cream);
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
   }
 
   body {
